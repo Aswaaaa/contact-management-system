@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "contact-management-system/1.0.0": {
+        "runtime": {
+          "contact-management-system.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "contact-management-system/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
