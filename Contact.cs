@@ -2,9 +2,7 @@ using System;
 
 namespace contact_management_system;
 
-
-
-class Contact
+public class Contact
 {
   public string FirstName { get; set; }
   public string LastName { get; set; }
@@ -12,6 +10,9 @@ class Contact
   public string Email { get; set; }
   public DateTime Birthday { get; set; }
   public ContactType Type { get; set; }
+
+  private static List<Contact> contacts = new List<Contact>();
+  private static readonly ContactValidator validator = new ContactValidator();
 
   public int Age
   {
@@ -23,24 +24,39 @@ class Contact
       return age;
     }
   }
-  private static List<Contact> contacts = new List<Contact>();
+  public (bool isValid, string errorMessage) Validate()
+  {
+    return validator.ValidateContact(this);
+  }
 
   public static bool AddContact(Contact contact)
   {
-    if (string.IsNullOrWhiteSpace(contact.FirstName) || string.IsNullOrWhiteSpace(contact.LastName))
+    var (isValid, errorMessage) = contact.Validate();
+    if (!isValid)
     {
-      Console.WriteLine("Error: name cannot be empty");
+      Console.WriteLine($"Error: {errorMessage}");
       return false;
     }
 
-    if (contacts.Any(c => c.Email == contact.Email))
+    if (contacts.Any(c => c.Email.Equals(contact.Email, StringComparison.OrdinalIgnoreCase)))
     {
-      System.Console.WriteLine("error: Email already exists");
+      Console.WriteLine("Error: Email already exists!");
       return false;
     }
+
+    contact.DisplaySummary();
+
+    Console.Write("\nSave contact? (Y/N): ");
+    if (Console.ReadLine().Trim().ToUpper() != "Y")
+    {
+      Console.WriteLine("Contact not saved.");
+      return false;
+    }
+
     contacts.Add(contact);
     return true;
   }
+
   public static List<Contact> GetAllContacts()
   {
     return contacts;
@@ -51,29 +67,49 @@ class Contact
     c.LastName.ToLower().Contains(search.ToLower()))
     .ToList();
   }
-  public static bool UpdateContact(string email, string newFirstName, string newLastName, string newPhoneNumber)
+  public static bool UpdateContact(string email, string newFirstName, string newLastName, string newPhone)
   {
-    Contact contact = contacts.FirstOrDefault(c => c.Email == email);
-    if (contact == null) return false;
+    var contact = contacts.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+    if (contact == null)
+    {
+      return false;
+    }
 
-    if (!string.IsNullOrWhiteSpace(newFirstName))
-      contact.FirstName = newFirstName;
+    var tempContact = new Contact
+    {
+      FirstName = !string.IsNullOrWhiteSpace(newFirstName) ? newFirstName : contact.FirstName,
+      LastName = !string.IsNullOrWhiteSpace(newLastName) ? newLastName : contact.LastName,
+      PhoneNumber = !string.IsNullOrWhiteSpace(newPhone) ? newPhone : contact.PhoneNumber,
+      Email = contact.Email,
+      Birthday = contact.Birthday,
+      Type = contact.Type
+    };
 
-    if (!string.IsNullOrWhiteSpace(newLastName))
-      contact.LastName = newLastName;
+    var (isValid, errorMessage) = tempContact.Validate();
+    if (!isValid)
+    {
+      Console.WriteLine($"Error: {errorMessage}");
+      return false;
+    }
 
-    if (!string.IsNullOrWhiteSpace(newPhoneNumber))
-      contact.PhoneNumber = newPhoneNumber;
+    contact.FirstName = tempContact.FirstName;
+    contact.LastName = tempContact.LastName;
+    contact.PhoneNumber = tempContact.PhoneNumber;
 
     return true;
   }
   public static bool DeleteContact(string email)
   {
-    Contact contact = contacts.FirstOrDefault(c => c.Email == email);
-    if (contact == null) return false;
+    var contact = contacts.FirstOrDefault(c => c.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+    if (contact == null)
+    {
+      return false;
+    }
+
     return contacts.Remove(contact);
   }
-  public void DisplaySummary(){
+  public void DisplaySummary()
+  {
     System.Console.WriteLine("\n Contact Summary");
     System.Console.WriteLine($"Name: {FirstName} {LastName}");
     System.Console.WriteLine($"Email: {Email}");

@@ -1,6 +1,6 @@
 namespace contact_management_system;
 
- enum ContactType
+ public enum ContactType
 {
   Personal,
   Professional

@@ -65,18 +65,18 @@ class Program
     System.Console.Write("Enter First name: ");
     contact.FirstName = Console.ReadLine();
 
-    System.Console.WriteLine("Enter Last name: ");
+    System.Console.Write("Enter Last name: ");
     contact.LastName = Console.ReadLine();
 
     System.Console.Write("Enter Phone Number ((XXX) XXX-XXXX or XXX-XXX-XXXX): ");
     contact.PhoneNumber = Console.ReadLine();
 
-    System.Console.WriteLine("Enter Email: ");
+    System.Console.Write("Enter Email: ");
     contact.Email = Console.ReadLine();
 
     while (true)
     {
-      System.Console.WriteLine("Enter BirthDay (DD/MM/YYYY): ");
+      System.Console.Write("Enter BirthDay (DD/MM/YYYY): ");
       if (DateTime.TryParse(Console.ReadLine(), out DateTime birthday))
       {
         contact.Birthday = birthday;
@@ -84,7 +84,7 @@ class Program
       }
       System.Console.WriteLine("Invalid date format");
     }
-    System.Console.WriteLine("Enter contcat type (1 for Personal, 2 for Professional): ");
+    System.Console.Write("Enter contcat type (1 for Personal, 2 for Professional): ");
     contact.Type = Console.ReadLine() == "1" ? ContactType.Personal : ContactType.Professional;
 
     if (Contact.AddContact(contact))
@@ -98,7 +98,7 @@ class Program
     var contacts = Contact.GetAllContacts();
     if (contacts.Count == 0)
     {
-      System.Console.Write("\n No contacts found");
+      System.Console.WriteLine("\n No contacts found");
       return;
     }
     System.Console.WriteLine("Contact List: ");
