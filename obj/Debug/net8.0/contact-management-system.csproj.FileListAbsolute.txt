@@ -12,3 +12,4 @@ C:\Users\aswan\OneDrive\Desktop\edstem\contact-management-system\obj\Debug\net8.
 C:\Users\aswan\OneDrive\Desktop\edstem\contact-management-system\obj\Debug\net8.0\contact-management-system.pdb
 C:\Users\aswan\OneDrive\Desktop\edstem\contact-management-system\obj\Debug\net8.0\contact-management-system.genruntimeconfig.cache
 C:\Users\aswan\OneDrive\Desktop\edstem\contact-management-system\obj\Debug\net8.0\ref\contact-management-system.dll
+C:\Users\aswan\OneDrive\Desktop\edstem\contact-management-system\obj\Debug\net8.0\contact-management-system.sourcelink.json
